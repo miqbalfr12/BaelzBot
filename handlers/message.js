@@ -4,6 +4,7 @@ const fs = require("fs");
 const Timeout = new Map();
 
 const logging = (nama, log) => {
+    if (!fs.existsSync(`./chats`)) fs.mkdirSync(`./chats`)
     if (!fs.existsSync(`./chats/${nama}.txt`)){fs.writeFile(`./chats/${nama}.txt`, nama, (err)=>{if (err) throw err})}
     fs.appendFile(`./chats/${nama}.txt`, `\n${log}`, (err)=>{if (err) throw err});
 }
