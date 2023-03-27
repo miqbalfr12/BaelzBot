@@ -1,0 +1,201 @@
+const express = require('express');
+const { body, validationResult } = require('express-validator');
+const socketIO = require('socket.io');
+const http = require('http');
+const app = express();
+const server = http.createServer(app);
+const io = socketIO(server)
+const { pnf } = require('../helper/formatter');
+const { MessageMedia } = require('whatsapp-web.js');
+
+const qrcode = require('qrcode');
+
+module.exports = (client) => {
+    client.status = 'Connecting...';
+    client.recentQR
+    
+    app.use(express.urlencoded({ extended: true }));
+
+    app.use(express.json());
+
+    app.get('/', (req, res) => {
+        res.sendFile('C:\\Users\\Baelz\\Desktop\\project\\wabot\\source\\html\\index.html');
+        console.log('\x1b[90m[express]\x1b[0m Send File : index.html');
+    })
+
+    app.get('/logo.png', (req, res) => {
+        res.sendFile('C:\\Users\\Baelz\\Desktop\\project\\wabot\\source\\img\\logo.png');
+        console.log('\x1b[90m[express]\x1b[0m Send File : logo.png');
+    })
+
+    app.get('/styles.css', (req, res) => {
+        res.sendFile('C:\\Users\\Baelz\\Desktop\\project\\wabot\\source\\css\\styles.css');
+        console.log('\x1b[90m[express]\x1b[0m Send File : styles.css');
+    })
+
+    const checkReqNum = async function (number) {
+        const isReg = client.isRegisteredUser(number);
+        return isReg;
+    }
+
+    app.post('/send-message', [
+        body('number').notEmpty(),
+        body('message').notEmpty(),
+    ], async (req, res) => {
+        const errors = validationResult(req).formatWith(({ msg }) => {
+            return msg;
+        });
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({
+                status: false,
+                message: errors.mapped()
+            })
+        }
+        const number = pnf(req.body.number);
+        const message = req.body.message;
+
+        const isRegNum = await checkReqNum(number);
+
+        if (!isRegNum) {
+            return res.status(422).json({
+                status: false,
+                message: 'The number is not registered'
+            })
+        }
+
+        client.sendMessage(number, message).then(response => {
+            res.status(200).json({
+                status: true,
+                response: response
+            });
+        }).catch(err => {
+            res.status(500).json({
+                status: false,
+                response: err
+            });
+        })
+    });
+    
+    app.post('/send-group', [
+        body('number').notEmpty(),
+        body('message').notEmpty(),
+    ], async (req, res) => {
+        const errors = validationResult(req).formatWith(({ msg }) => {
+            return msg;
+        });
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({
+                status: false,
+                message: errors.mapped()
+            })
+        }
+        const number = req.body.number;
+        const message = req.body.message;
+
+        client.sendMessage(number, message).then(response => {
+            res.status(200).json({
+                status: true,
+                response: response
+            });
+        }).catch(err => {
+            res.status(500).json({
+                status: false,
+                response: err
+            });
+        })
+    });
+
+    app.post('/send-media', [
+        body('number').notEmpty(),
+        body('caption').notEmpty(),
+        body('media').notEmpty(),
+    ], async (req, res) => {
+        const errors = validationResult(req).formatWith(({ msg }) => {
+            return msg;
+        });
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({
+                status: false,
+                message: errors.mapped()
+            })
+        }
+        const number = pnf(req.body.number);
+        const caption = req.body.caption;
+        const media = req.body.media;
+
+        let mediaf = MessageMedia.fromFilePath(media);
+
+        const isRegNum = await checkReqNum(number);
+
+        if (!isRegNum) {
+            return res.status(422).json({
+                status: false,
+                message: 'The number is not registered'
+            })
+        }
+
+        client.sendMessage(number, mediaf, { caption: caption }).then(response => {
+            res.status(200).json({
+                status: true,
+                response: response
+            });
+        }).catch(err => {
+            res.status(500).json({
+                status: false,
+                response: err
+            });
+        })
+    });
+
+    io.on('connection', function (socket) {
+        socket.emit('message', client.status);
+        if (client.recentQR) socket.emit('qr', client.recentQR);
+
+        client.on('qr', (qr) => {
+            qrcode.toDataURL(qr, (err, url) => {
+                client.recentQR = url
+                client.status = 'Scan QR Code please'
+                socket.emit('qr', client.recentQR);
+                socket.emit('message', client.status)
+                console.log('\x1b[33m[Whatsapp]\x1b[0m Sending QR Code to scan');
+            })
+        });
+
+        client.on('ready', () => {
+            client.status = 'Whatsapp is ready!'
+            socket.emit('ready', '/logo.png');
+            socket.emit('message', client.status);
+            console.log('\x1b[32m[Whatsapp]\x1b[0m Client is ready!');
+            client.sendMessage('62895396161325@c.us', 'WhatsApp Bot Online!');
+        });
+
+        client.on('authenticated', () => {
+            client.status = 'Whatsapp is authenticated!'
+            client.recentQR = ''
+            socket.emit('message', client.status);
+            console.log('\x1b[33m[Whatsapp]\x1b[0m Authenticated');
+        });
+
+        client.on('auth_failure', function (session) {
+            client.status = 'Auth failure, restarting...'
+            socket.emit('message', client.status);
+            console.log('\x1b[33m[Whatsapp]\x1b[0m Auth failure, restarting...');
+        });
+
+        client.on('disconnected', (reason) => {
+            client.status = 'Whatsapp is disconnected!'
+            socket.emit('message', client.status);
+            console.log('\x1b[31m[Whatsapp]\x1b[0m Disconnected');
+            client.destroy();
+            client.initialize();
+        });
+
+    });
+
+    server.listen(8000, function () {
+        console.log('\x1b[36m[server]\x1b[0m App running on : ' + 8000 )
+    })
+}
