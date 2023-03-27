@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whatsapp API</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!--<div id="app">
+        <h1>Whatsapp API</h1>
+        <img src="" alt="QR Code" id="qrcode">
+        <h3>Logs:</h3>
+        <ul class="logs"></ul>
+    </div>-->
+    <article class="blog-post">
+        <div class="blog-post__img">
+          <img src="/logo.png" id="qrcode"  alt="" />
+        </div>
+        <div class="blog-post__info">
+          <h2 class="blog-post__title">Whatsapp API</h2>
+          <div class="blog-post__date">
+            <span>Gunakan Whatsapp anda sebagai Bot</span>
+          </div>
+          <ol style="margin: 5%; color: #8e8c8c;">
+            <li>Buka Whatsapp di telepon anda</li>
+            <li>Ketuk Menu atau Setelan dan pilih Perangkat Tertaut</li>
+            <li>Ketuk Tautkan Perangkat</li>
+            <li>Arahkan telepon Anda ke layar ini untuk memindai kode tersebut.</li>
+          </ol>
+          <div>
+            <a href="#" class="blog-post__cta">Status</a>
+          </div>
+        </div>
+      </article>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js" integrity="sha512-YeeA/Qxn5hYdkukScTCNNOhTrv1C2RubAGButJ1rmgQwZf/HdRaCGl+JAVkqsqaNRaYNHdheiuKKuPf9mDcqKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        //$('#qrcode').hide();
+        $(document).ready( function() {
+            var socket = io.connect('http://localhost:8000', { path: '/socket.io'});
+            socket.on('message', function(msg) {
+                $('.blog-post__cta').text(msg);
+            })
+
+            socket.on('qr', function(src) {
+                $('#qrcode').attr('src', src);
+                //$('#qrcode').show();
+            })
+
+            socket.on('ready', function(data) {
+				        $('#qrcode').attr('src', data);
+                $('#qrcode').show();
+			      });
+        })
+    </script>
+</body>
+</html>
