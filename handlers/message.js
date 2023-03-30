@@ -47,7 +47,7 @@ module.exports = (client) => {
         if(feature) answer(feature);
         else if(command) answer(command);
         else {
-            if (message.from.includes("@g.us") , client.ignore.includes(cmd) || client.mode.has(message.from)) return;
+            if (fromGroup || client.ignore.includes(cmd) || client.mode.has(message.from)) return;
             let nama = client.data_akun.has(pnf2(message.from)) ? ` ${client.data_akun.get(pnf2(message.from)).nama}` : ` ${message._data.notifyName}`;
             let buttonwk = new Buttons(
                 'ada yang bisa saya bantu?\nklick/ketik "help" untuk layanan lebih lanjut.',
