@@ -6,8 +6,8 @@ const Timeout = new Map();
 
 const logging = (nama, log) => {
     if (!fs.existsSync(`./chats`)) fs.mkdirSync(`./chats`)
-    if (!fs.existsSync(`./chats/${nama}.txt`)){fs.writeFile(`./chats/${nama}.txt`, nama, (err)=>{if (err) throw err})}
-    fs.appendFile(`./chats/${nama}.txt`, `\n${log}`, (err)=>{if (err) throw err});
+    if (!fs.existsSync(`./chats/${nama}.txt`)){fs.writeFile(`./chats/${nama}.txt`, nama, (err)=>{if (err) comsole.log(err)})}
+    fs.appendFile(`./chats/${nama}.txt`, `\n${log}`, (err)=>{if (err) comsole.log(err)});
 }
 
 module.exports = (client) => {
@@ -84,7 +84,12 @@ module.exports = (client) => {
                     `Hi${nama}!`,
                     'BaelzBot!'
                 );
-            message.reply(buttonwk);
+            const media = MessageMedia.fromFilePath("./source/oga/1680455163938_Baelz.oga");
+            message.reply(media).then(response => {
+                setTimeout(() => {
+                    response.reply(buttonwk);
+                }, 1000);
+            });
             client.mode.set(message.from, {'first': 'done'})
         }
     });
