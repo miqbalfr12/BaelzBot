@@ -5,7 +5,7 @@ const client = new Client({
     restartOnAuthFail: true,
     puppeteer: {
         executablePath:
-            "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome",
+            "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
         // executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome',
         headless: true,
         args: [

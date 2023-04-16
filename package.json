@@ -14,6 +14,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-validator": "^6.15.0",
+    "ffmpeg": "^0.0.4",
     "http": "^0.0.1-security",
     "qrcode": "^1.5.1",
     "qrcode-terminal": "^0.12.0",
@@ -23,7 +24,6 @@
   "keywords": [
     "Bot"
   ],
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/miqbalfr12/BaelzBot.git"
