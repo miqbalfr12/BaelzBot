@@ -1,5 +1,5 @@
 const qrcode = require("qrcode-terminal");
 
-module.exports = qr => {
+module.exports = (client, qr) => {
     qrcode.generate(qr, { small: true });
 }

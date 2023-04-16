@@ -160,7 +160,7 @@ module.exports = (client) => {
                 client.status = 'Scan QR Code please'
                 socket.emit('qr', client.recentQR);
                 socket.emit('message', client.status)
-                console.log('\x1b[33m[Whatsapp]\x1b[0m Sending QR Code to scan');
+                console.log('\x1b[33m[Whatsapp]\x1b[0m Sending QR Code to scan in localhost:8000');
             })
         });
 
