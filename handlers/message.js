@@ -1,4 +1,5 @@
-const { Buttons } = require('whatsapp-web.js');
+const { Buttons, MessageMedia } = require('whatsapp-web.js');
+const mime = require('mime-types');
 const { pnf2 } = require('../helper/formatter');
 const fs = require("fs");
 const Timeout = new Map();
@@ -11,6 +12,7 @@ const logging = (nama, log) => {
 
 module.exports = (client) => {
     client.on("message", async message => {
+        
         if (message.from === 'status@broadcast') return
 
         const today = new Date().toLocaleString();
@@ -23,6 +25,29 @@ module.exports = (client) => {
         const log = `[${today}]${identity} ${message.body} `;
         logging(fromGroup ? chat.name : message._data.notifyName, log);
         console.log('\x1b[33m[Whatsapp Chat-log]\x1b[0m', log);
+
+        if(message.hasMedia){
+            message.downloadMedia().then(media => {
+                if (media) {
+                    const mediaPath = './download/';
+                    if (!fs.existsSync(mediaPath)) {
+                        fs.mkdirSync(mediaPath);
+                    }
+                    const extension = mime.extension(media.mimetype);
+                    const timestamp = new Date().getTime();
+                    let nama = fromGroup ? chat.name : message._data.notifyName;
+                    let medfile = media.filename ? nama + '_' + media.filename : nama + '.' + extension;
+                    const fullFilename = mediaPath + timestamp + '_' + medfile;
+                    // Save to file
+                    try {
+                        fs.writeFileSync(fullFilename, media.data, { encoding: 'base64' });
+                        console.log('File downloaded successfully!', fullFilename);
+                    } catch (err) {
+                        console.log('Failed to save the file:', err);
+                    }
+                }
+            });
+        }
 
         console.log(client.mode)
         const command = client.commands.get(cmd) || client.aliases.get(cmd);
@@ -53,7 +78,7 @@ module.exports = (client) => {
                 'ada yang bisa saya bantu?\nklick/ketik "help" untuk layanan lebih lanjut.',
                 [
                     { body: 'Help' },
-                    { body: 'ChatGPT' },
+                    { body: 'Fitur' },
                     { body: 'Thanks' }
                 ],
                     `Hi${nama}!`,
