@@ -19,7 +19,7 @@ module.exports = {
                 waktu = 60000 * parseInt(set.replace('m',''))
             } else if (set.includes('j')) {
                 nanti = set.replace('j',' jam')
-                waktu = 60000 * 60000 * parseInt(set.replace('j',''))
+                waktu = 3600000 * parseInt(set.replace('j',''))
             } else {
                 message.reply(`Tambahkan keterangan waktu seperti 1d/1m/1j.`)
                 return
