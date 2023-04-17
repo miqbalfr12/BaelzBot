@@ -6,7 +6,7 @@ module.exports = {
     name: "stiker",
     aliases: ['s','stk'],
     description: "stiker bot",
-    timeout: 5000,
+    timeout: 0,
     category: "other",
     run: async(client, message) => {
         const stiker = (pull) => {
