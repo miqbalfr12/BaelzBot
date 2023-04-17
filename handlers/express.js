@@ -7,6 +7,7 @@ const server = http.createServer(app);
 const io = socketIO(server)
 const { pnf } = require('../helper/formatter');
 const { MessageMedia } = require('whatsapp-web.js');
+require('dotenv').config()
 
 const qrcode = require('qrcode');
 
@@ -19,17 +20,17 @@ module.exports = (client) => {
     app.use(express.json());
 
     app.get('/', (req, res) => {
-        res.sendFile('C:\\Users\\Baelz\\Desktop\\project\\wabot\\source\\html\\index.html');
+        res.sendFile(`${process.env.ROOT}\\source\\html\\index.html`);
         console.log('\x1b[90m[express]\x1b[0m Send File : index.html');
     })
 
     app.get('/logo.png', (req, res) => {
-        res.sendFile('C:\\Users\\Baelz\\Desktop\\project\\wabot\\source\\img\\logo.png');
+        res.sendFile(`${process.env.ROOT}\\source\\img\\logo.png`);
         console.log('\x1b[90m[express]\x1b[0m Send File : logo.png');
     })
 
     app.get('/styles.css', (req, res) => {
-        res.sendFile('C:\\Users\\Baelz\\Desktop\\project\\wabot\\source\\css\\styles.css');
+        res.sendFile(`${process.env.ROOT}\\source\\css\\styles.css`);
         console.log('\x1b[90m[express]\x1b[0m Send File : styles.css');
     })
 

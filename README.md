@@ -15,6 +15,7 @@ The variables needed in ```.env``` include:
 ```env
 API_KEY_OPEN_AI = "YOUR API KEY OPEN AI" 
 CHROME_PATH = "YOUR CHROME PATH"
+ROOT = "YOUR DIR BOT"
 ```
 API_KEY_OPEN_AI Found at [here](https://platform.openai.com/account/api-keys)
 
