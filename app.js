@@ -4,9 +4,9 @@ const { readdirSync } = require("fs");
 const client = new Client({
     restartOnAuthFail: true,
     puppeteer: {
-        executablePath:
-            "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-        // executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome',
+        // executablePath:
+        //     "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+        executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
         headless: true,
         args: [
             "--no-sandbox",
