@@ -1,12 +1,11 @@
 const { Client, LocalAuth } = require("whatsapp-web.js");
 const { readdirSync } = require("fs");
+require('dotenv').config()
 
 const client = new Client({
     restartOnAuthFail: true,
     puppeteer: {
-        // executablePath:
-        //     "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-        executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+        executablePath: `${process.env.CHROME_PATH}`,
         headless: true,
         args: [
             "--no-sandbox",

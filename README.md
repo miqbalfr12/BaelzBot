@@ -14,6 +14,7 @@ Create an ```.env``` file in BaelzBot's main folder to hold secret variables.
 The variables needed in ```.env``` include:
 ```env
 API_KEY_OPEN_AI = "YOUR API KEY OPEN AI" 
+CHROME_PATH = "YOUR CHROME PATH"
 ```
 API_KEY_OPEN_AI Found at [here](https://platform.openai.com/account/api-keys)
 
