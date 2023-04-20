@@ -52,6 +52,7 @@ module.exports = (client) => {
         console.log(client.mode)
         const command = client.commands.get(cmd) || client.aliases.get(cmd);
         const feature = client.features.get(client.mode.get(message.from)?.mode);
+        const dbcmd = client.dbcmd.get(cmd)
         console.log(command || feature)
 
         const answer = (pull) => {
@@ -71,6 +72,7 @@ module.exports = (client) => {
 
         if(feature) answer(feature);
         else if(command) answer(command);
+        else if(dbcmd) message.reply(dbcmd.answer)
         else {
             if (fromGroup || client.ignore.includes(cmd) || client.mode.has(message.from)) return;
             let nama = client.data_akun.has(pnf2(message.from)) ? ` ${client.data_akun.get(pnf2(message.from)).nama}` : ` ${message._data.notifyName}`;

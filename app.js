@@ -23,6 +23,7 @@ const client = new Client({
 
 client.commands = new Map();
 client.aliases = new Map();
+client.dbcmd = new Map();
 client.ignore = [];
 client.features = new Map();
 client.mode = new Map();
