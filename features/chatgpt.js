@@ -8,37 +8,39 @@ const ChatGPTRequest = async (text) => {
         message: "",
     };
     return await axios({
-        method: "post",
-        url: "https://api.openai.com/v1/completions",
-        data: {
-            model: "text-davinci-003",
-            prompt: text,
-            max_tokens: 2048 ,
-            temperature: 0,
-        },
-        headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            "Accept-Language": "in-ID",
-            Authorization: `Bearer ${process.env.API_KEY_OPEN_AI}`,
-        },
+     method: "post",
+     url: "https://api.openai.com/v1/chat/completions",
+     data: {
+      model: "davinci-002",
+      messages: [{role: "user", content: text}],
+      max_tokens: 2048,
+      temperature: 0.7,
+     },
+     headers: {
+      accept: "application/json",
+      "Content-Type": "application/json",
+      "Accept-Language": "in-ID",
+      Authorization: `Bearer ${process.env.API_KEY_OPEN_AI}`,
+     },
     })
-        .then((response) => {
-            if (response.status == 200) {
-                const { choices } = response.data;
-                if (choices && choices.length) {
-                    result.success = true;
-                    result.data = choices[0].text;
-                }
-            } else {
-                result.message = "Failed response";
-            }
-            return result;
-        })
-        .catch((error) => {
-            result.message = "Error : " + error.message;
-            return result;
-        });
+     .then((response) => {
+      console.log(response);
+      if (response.status == 200) {
+       const {choices} = response.data;
+       if (choices && choices.length) {
+        result.success = true;
+        result.data = choices[0].text;
+       }
+      } else {
+       result.message = "Failed response";
+      }
+      return result;
+     })
+     .catch((error) => {
+      console.log(error);
+      result.message = "Error : " + error.message;
+      return result;
+     });
 };
 
 

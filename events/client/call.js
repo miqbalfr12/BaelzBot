@@ -1,4 +1,4 @@
-const { Buttons, MessageMedia } = require('whatsapp-web.js');
+const { MessageMedia } = require('whatsapp-web.js');
 
 module.exports = async (client, call) => {
     let rejectCalls = true;
