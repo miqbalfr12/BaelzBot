@@ -1,4 +1,3 @@
-const {Buttons, MessageMedia} = require("whatsapp-web.js");
 const mime = require("mime-types");
 const {pnf2} = require("../helper/formatter");
 const fs = require("fs");
@@ -98,19 +97,9 @@ module.exports = (client) => {
    let nama = client.data_akun.has(pnf2(message.from))
     ? ` ${client.data_akun.get(pnf2(message.from)).nama}`
     : ` ${message._data.notifyName}`;
-   // let buttonwk = new Buttons(
-   //     'ada yang bisa saya bantu?\nklick/ketik "help" untuk layanan lebih lanjut.',
-   //     [
-   //         { body: 'Help' },
-   //         { body: 'Fitur' },
-   //         { body: 'Thanks' }
-   //     ],
-   //         `Hi${nama}!`,
-   //         'BaelzBot!'
-   //     );
-   const media = MessageMedia.fromFilePath(
-    "./source/oga/1680455163938_Baelz.oga"
-   );
+   //  const media = MessageMedia.fromFilePath(
+   //   "./source/oga/1680455163938_Baelz.oga"
+   //  );
    message.reply(media).then((response) => {
     setTimeout(() => {
      message.reply(
