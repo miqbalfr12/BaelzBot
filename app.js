@@ -27,6 +27,7 @@ client.dbcmd = new Map();
 client.ignore = [];
 client.features = new Map();
 client.mode = new Map();
+client.friends = new Map();
 client.data_akun = new Map();
 
 ["handlers"].forEach((dir) => {

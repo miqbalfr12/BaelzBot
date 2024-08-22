@@ -4,15 +4,16 @@ const fs = require("fs");
 const Timeout = new Map();
 
 const logging = (nama, log) => {
- if (!fs.existsSync(`./chats`)) fs.mkdirSync(`./chats`);
- if (!fs.existsSync(`./chats/${nama}.txt`)) {
-  fs.writeFile(`./chats/${nama}.txt`, nama, (err) => {
-   if (err) console.log(err);
-  });
+ try {
+  if (!fs.existsSync(`./chats`)) fs.mkdirSync(`./chats`);
+  if (!fs.existsSync(`./chats/${nama}.txt`)) {
+   fs.writeFile(`./chats/${nama}.txt`, nama);
+  }
+  fs.appendFile(`./chats/${nama}.txt`, `\n${log}`);
+ } catch (error) {
+  console.log(error);
+  client.sendMessage("62895396161325@c.us", error.message);
  }
- fs.appendFile(`./chats/${nama}.txt`, `\n${log}`, (err) => {
-  if (err) console.log(err);
- });
 };
 
 module.exports = (client) => {
@@ -91,7 +92,8 @@ module.exports = (client) => {
    if (
     fromGroup ||
     client.ignore.includes(cmd) ||
-    client.mode.has(message.from)
+    client.mode.has(message.from) ||
+    client.friends.has(message.from)
    )
     return;
    let nama = client.data_akun.has(pnf2(message.from))
