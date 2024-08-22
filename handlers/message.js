@@ -100,14 +100,13 @@ module.exports = (client) => {
    //  const media = MessageMedia.fromFilePath(
    //   "./source/oga/1680455163938_Baelz.oga"
    //  );
-   message.reply(media).then((response) => {
-    setTimeout(() => {
-     message.reply(
-      `Hi${nama}!\n\nada yang bisa saya bantu?\nklick/ketik "Fitur" untuk layanan lebih lanjut.\n\n_BaelzBot_\n\nFitur, Thanks`
-     );
-     // response.reply(buttonwk);
-    }, 1000);
-   });
+   //  message.reply(media).then((response) => {
+   //   setTimeout(() => {
+   message.reply(
+    `Hi${nama}!\n\nada yang bisa saya bantu?\ketik "Fitur" untuk layanan lebih lanjut.\n\n_BaelzBot_\n\nFitur, Thanks`
+   );
+   //   }, 1000);
+   //  });
    client.mode.set(message.from, {first: "done"});
   }
  });
