@@ -3,8 +3,6 @@ const {pnf2} = require("../helper/formatter");
 const fs = require("fs");
 const Timeout = new Map();
 
-const fs = require("fs");
-
 const logging = (nama, log) => {
  console.log(nama, log);
  try {
