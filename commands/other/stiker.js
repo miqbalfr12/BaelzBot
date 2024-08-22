@@ -46,7 +46,7 @@ module.exports = {
                 quotedMsg.reply('ini gak bisa dibikin stiker broo, tag gambar dong.');
             }
         } else {
-            message.reply(`send image with caption *sticker* `)
+            message.reply(`send image with caption *Stiker* `)
         }
     }
 }
