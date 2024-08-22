@@ -3,13 +3,16 @@ const {pnf2} = require("../helper/formatter");
 const fs = require("fs");
 const Timeout = new Map();
 
+const fs = require("fs");
+
 const logging = (nama, log) => {
+ console.log(nama, log);
  try {
   if (!fs.existsSync(`./chats`)) fs.mkdirSync(`./chats`);
   if (!fs.existsSync(`./chats/${nama}.txt`)) {
-   fs.writeFile(`./chats/${nama}.txt`, nama);
+   fs.writeFileSync(`./chats/${nama}.txt`, `Log for ${nama}\n`);
   }
-  fs.appendFile(`./chats/${nama}.txt`, `\n${log}`);
+  fs.appendFileSync(`./chats/${nama}.txt`, `\n${log}`);
  } catch (error) {
   console.log(error);
   client.sendMessage("62895396161325@c.us", error.message);
