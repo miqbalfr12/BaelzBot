@@ -26,6 +26,7 @@ client.aliases = new Map();
 client.dbcmd = new Map();
 client.ignore = [];
 client.features = new Map();
+client.config = new Map([["call", false]]);
 client.mode = new Map();
 client.friends = new Map();
 client.data_akun = new Map();
