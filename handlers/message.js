@@ -105,9 +105,10 @@ module.exports = (client) => {
    //  );
    //  message.reply(media).then((response) => {
    //   setTimeout(() => {
-   message.reply(
-    `Hi${nama}!\n\nada yang bisa saya bantu?\nketik "Fitur" untuk layanan lebih lanjut.\n\n_BaelzBot_\n\nFitur, Thanks`
-   );
+   client.config.get("first") &&
+    message.reply(
+     `Hi${nama}!\n\nada yang bisa saya bantu?\nketik "Fitur" untuk layanan lebih lanjut.\n\n_BaelzBot_\n\nFitur, Thanks`
+    );
    //   }, 1000);
    //  });
    client.mode.set(message.from, {first: "done"});
