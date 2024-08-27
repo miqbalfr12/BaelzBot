@@ -12,11 +12,11 @@ module.exports = {
 
    if (keys.includes(args[1])) {
     switch (args[0]) {
-     case "disable":
+     case "enable":
       client.config.set(args[1], true);
       await message.reply(`Successfully set Status of ${args[1]}: Enabled`);
       break;
-     case "enable":
+     case "disable":
       client.config.set(args[1], false);
       await message.reply(`Successfully set Status of ${args[1]}: Disabled`);
       break;
