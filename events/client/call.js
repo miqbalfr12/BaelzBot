@@ -1,7 +1,7 @@
 const {MessageMedia} = require("whatsapp-web.js");
 
 module.exports = async (client, call) => {
- let rejectCalls = client.config.get("call");
+ let rejectCalls = !client.config.get("call");
  console.log(
   "\x1b[33m[Whatsapp Call-log]\x1b[0m Call received, rejecting.",
   call

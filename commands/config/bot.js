@@ -14,16 +14,16 @@ module.exports = {
     switch (args[0]) {
      case "disable":
       client.config.set(args[1], true);
-      await message.reply(`Successfully set Status of ${args[1]}: Disabled`);
+      await message.reply(`Successfully set Status of ${args[1]}: Enabled`);
       break;
      case "enable":
       client.config.set(args[1], false);
-      await message.reply(`Successfully set Status of ${args[1]}: Enabled`);
+      await message.reply(`Successfully set Status of ${args[1]}: Disabled`);
       break;
      case "status":
       const status = client.config.get(args[1]);
       await message.reply(
-       `Status of ${args[1]}: ${status ? "Disabled" : "Enabled"}`
+       `Status of ${args[1]}: ${status ? "Enabled" : "Disabled"}`
       );
       break;
      default:

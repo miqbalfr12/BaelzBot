@@ -27,7 +27,7 @@ client.dbcmd = new Map();
 client.ignore = [];
 client.features = new Map();
 client.config = new Map([
- ["call", false],
+ ["call", true],
  ["first", true],
 ]);
 client.mode = new Map();
