@@ -22,9 +22,22 @@ module.exports = (client) => {
 
  app.use(bodyParser.json());
 
- app.post("/webhook", (req, res) => {
-  console.log("Received webhook:", req.body);
-  client.sendMessage("62895396161325@c.us", JSON.stringify(req.body, null, 2));
+ app.post("/webhook/:to?", (req, res) => {
+  const to = req.params.to;
+  const branch = req.body.ref.split("/")[2];
+  const repositori = req.body.repository.name;
+  const total = req.body.commits.length;
+
+  const whos = req.body.pusher.name;
+  const text = `[${repositori}:${branch}] ${total} new commits`;
+  const commit = req.body.commits.map(
+   (data) => ` - ${data.message}\n${data.url}\n\n`
+  );
+  // client.sendMessage("62895396161325@c.us", JSON.stringify(req.body, null, 2));
+  client.sendMessage(
+   to ? to : "62895396161325@c.us",
+   `${whos}\n${text}\n\n${commit}_BaelzBot_`
+  );
   res.sendStatus(200);
  });
 

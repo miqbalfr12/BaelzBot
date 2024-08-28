@@ -30,7 +30,19 @@ module.exports = {
       await message.reply(
        `You can config:${keys.map(
         (key) => `\n\t- ${key}`
-       )}\n\nWith this command:\n/bot <disable/enable/status> <key>`
+       )}\n\nWith this command:\n/system <disable/enable/status> <key>`
+      );
+      break;
+    }
+   } else if (args[0] === "check") {
+    switch (args[1]) {
+     case "chatid":
+      console.log(message);
+      await message.reply(`Here's the chatid from this chat:\n\n${message.to}`);
+      break;
+     default:
+      await message.reply(
+       `You can check:\n\t- chatid\n\nWith this command:\n/system check <key>`
       );
       break;
     }
@@ -38,7 +50,7 @@ module.exports = {
     return await message.reply(
      `You can config:${keys.map(
       (key) => `\n\t- ${key}`
-     )}\n\nWith this command:\n/bot <disable/enable/status> <key>`
+     )}\n\nYou can check:\n\t- chatid\n\nWith this command:\n/system <disable/enable/status/check> <key>`
     );
    }
   } else {
