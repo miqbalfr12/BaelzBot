@@ -24,6 +24,7 @@ module.exports = (client) => {
 
  app.post("/webhook", (req, res) => {
   console.log("Received webhook:", req.body);
+  client.sendMessage("62895396161325@c.us", JSON.stringify(req.body, null, 2));
   res.sendStatus(200);
  });
 
