@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const {body, validationResult} = require("express-validator");
 const socketIO = require("socket.io");
 const http = require("http");
@@ -18,6 +19,13 @@ module.exports = (client) => {
  app.use(express.urlencoded({extended: true}));
 
  app.use(express.json());
+
+ app.use(bodyParser.json());
+
+ app.post("/webhook", (req, res) => {
+  console.log("Received webhook:", req.body);
+  res.sendStatus(200);
+ });
 
  app.get("/", (req, res) => {
   res.sendFile(`${process.env.ROOT}\\source\\html\\index.html`);
