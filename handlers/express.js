@@ -28,11 +28,11 @@ module.exports = (client) => {
   const repositori = req.body.repository.name;
   const total = req.body?.commits?.length || 0;
 
-  const whos = req.body.pusher.name;
+  const whos = req.body?.pusher?.name || "Github";
   const text =
    req.body?.ref && req.body?.commits
     ? `[${repositori}:${branch}] ${total} new commits`
-    : `[${repositori}] ping`;
+    : `[${repositori}] Send Ping to webhook`;
   const commit = req.body?.commits
    ? req.body?.commits?.map((data) => ` - ${data.message}\n${data.url}\n\n`)
    : "";
