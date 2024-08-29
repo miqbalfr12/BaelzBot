@@ -24,15 +24,18 @@ module.exports = (client) => {
 
  app.post("/webhook/:to?", (req, res) => {
   const to = req.params.to;
-  const branch = req.body.ref.split("/")[2];
+  const branch = req.body?.ref?.split("/")[2] || "undifined";
   const repositori = req.body.repository.name;
-  const total = req.body.commits.length;
+  const total = req.body?.commits?.length || 0;
 
   const whos = req.body.pusher.name;
-  const text = `[${repositori}:${branch}] ${total} new commits`;
-  const commit = req.body.commits.map(
-   (data) => ` - ${data.message}\n${data.url}\n\n`
-  );
+  const text =
+   req.body?.ref && req.body?.commits
+    ? `[${repositori}:${branch}] ${total} new commits`
+    : `[${repositori}] ping`;
+  const commit = req.body?.commits
+   ? req.body?.commits?.map((data) => ` - ${data.message}\n${data.url}\n\n`)
+   : "";
   // client.sendMessage("62895396161325@c.us", JSON.stringify(req.body, null, 2));
   client.sendMessage(
    to ? to : "62895396161325@c.us",
