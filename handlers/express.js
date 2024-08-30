@@ -35,11 +35,11 @@ module.exports = (client) => {
     : `[${repositori}] Send Ping to webhook`;
   const commit = req.body?.commits
    ? req.body?.commits?.map((data) => ` - ${data.message}\n${data.url}\n\n`)
-   : "";
+   : [""];
   // client.sendMessage("62895396161325@c.us", JSON.stringify(req.body, null, 2));
   client.sendMessage(
    to ? to : "62895396161325@c.us",
-   `${whos}\n${text}\n\n${commit}_BaelzBot_`
+   `${whos}\n${text}\n\n${commit.join("")}_BaelzBot_`
   );
   res.sendStatus(200);
  });
