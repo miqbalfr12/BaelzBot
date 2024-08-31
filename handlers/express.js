@@ -8,6 +8,7 @@ const server = http.createServer(app);
 const io = socketIO(server);
 const {pnf} = require("../helper/formatter");
 const {MessageMedia} = require("whatsapp-web.js");
+const path = require("path");
 require("dotenv").config();
 
 const qrcode = require("qrcode");
