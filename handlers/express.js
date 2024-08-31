@@ -45,17 +45,17 @@ module.exports = (client) => {
  });
 
  app.get("/", (req, res) => {
-  res.sendFile(`${process.env.ROOT}/source/html/index.html`);
+  res.sendFile(path.join(process.env.ROOT, "source", "html", "index.html"));
   console.log("\x1b[90m[express]\x1b[0m Send File : index.html");
  });
 
  app.get("/logo.png", (req, res) => {
-  res.sendFile(`${process.env.ROOT}/source/img/logo.png`);
+  res.sendFile(path.join(process.env.ROOT, "source", "img", "logo.png"));
   console.log("\x1b[90m[express]\x1b[0m Send File : logo.png");
  });
 
  app.get("/styles.css", (req, res) => {
-  res.sendFile(`${process.env.ROOT}/source/css/styles.css`);
+  res.sendFile(path.join(process.env.ROOT, "source", "css", "styles.css"));
   console.log("\x1b[90m[express]\x1b[0m Send File : styles.css");
  });
 
