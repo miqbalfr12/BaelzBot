@@ -10,8 +10,11 @@ const {pnf} = require("../helper/formatter");
 const {MessageMedia} = require("whatsapp-web.js");
 const path = require("path");
 require("dotenv").config();
+const fs = require("fs");
 
 const qrcode = require("qrcode");
+
+const {default: puppeteer} = require("puppeteer");
 
 module.exports = (client) => {
  client.status = "Connecting...";
@@ -61,9 +64,32 @@ module.exports = (client) => {
  });
 
  const checkReqNum = async function (number) {
-  const isReg = client.isRegisteredUser(number);
-  return isReg;
+  console.log(number);
+  if (number.includes("@c.us")) {
+   const isReg = client.isRegisteredUser(number);
+   return isReg;
+  } else {
+   try {
+    const dataChat = await client.getChatById(number);
+    if (number.includes("@g.us") && dataChat.isGroup) return true;
+   } catch (error) {
+    return false;
+   }
+  }
  };
+
+ async function generatePDFfromHTML(htmlContent, outputPath) {
+  const browser = await puppeteer.launch({
+   headless: false,
+   args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+  const page = await browser.newPage();
+  await page.setContent(htmlContent, {waitUntil: "networkidle0"});
+  await page.pdf({path: outputPath, format: "A4", printBackground: true});
+  await browser.close();
+
+  console.log("PDF generated successfully");
+ }
 
  app.post(
   "/send-message",
@@ -105,6 +131,69 @@ module.exports = (client) => {
       response: err,
      });
     });
+  }
+ );
+
+ app.post(
+  "/send-html-pdf",
+  [
+   body("number").notEmpty(),
+   body("type").notEmpty(),
+   body("html").notEmpty(),
+   body("message").notEmpty(),
+  ],
+  async (req, res) => {
+   const errors = validationResult(req).formatWith(({msg}) => {
+    return msg;
+   });
+
+   if (!errors.isEmpty()) {
+    return res.status(422).json({
+     status: false,
+     message: errors.mapped(),
+    });
+   }
+
+   const number =
+    req.body.type === "@g.us"
+     ? req.body.number + "@g.us"
+     : pnf(req.body.number);
+   const message = req.body.message;
+
+   console.log(number);
+
+   const isRegNum = await checkReqNum(number);
+   console.log(isRegNum);
+
+   if (!isRegNum) {
+    return res.status(422).json({
+     status: false,
+     message: "The number is not registered",
+    });
+   }
+
+   const filePath = `${req.body?.title || "BaelzBot"}-${Date.now()}.pdf`;
+
+   generatePDFfromHTML(req.body.html, filePath).then(() => {
+    console.log("PDF generated successfully");
+    const media = MessageMedia.fromFilePath(filePath);
+    client
+     .sendMessage(number, media, {caption: message})
+     .then((response) => {
+      res.status(200).json({
+       status: true,
+       response: response,
+      });
+     })
+     .catch((err) => {
+      res.status(500).json({
+       status: false,
+       response: err,
+      });
+     });
+    fs.unlinkSync(filePath);
+    console.log("PDF deleted successfully");
+   });
   }
  );
 
