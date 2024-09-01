@@ -80,7 +80,7 @@ module.exports = (client) => {
 
  async function generatePDFfromHTML(htmlContent, outputPath) {
   const browser = await puppeteer.launch({
-   headless: false,
+   headless: true,
    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
