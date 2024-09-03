@@ -292,7 +292,7 @@ module.exports = (client) => {
     socket.emit("qr", client.recentQR);
     socket.emit("message", client.status);
     console.log(
-     "\x1b[33m[Whatsapp]\x1b[0m Sending QR Code to scan in localhost:5173"
+     `\x1b[33m[Whatsapp]\x1b[0m Sending QR Code to scan in ${process.env.HOST}:${process.env.PORT}`
     );
    });
   });
@@ -327,7 +327,7 @@ module.exports = (client) => {
   });
  });
 
- server.listen(5173, function () {
-  console.log("\x1b[36m[server]\x1b[0m App running on : " + 5173);
+ server.listen(process.env.PORT, function () {
+  console.log("\x1b[36m[server]\x1b[0m App running on : " + process.env.PORT);
  });
 };
