@@ -4,7 +4,7 @@ module.exports = {
  description: "ping bot",
  timeout: 5000,
  category: "info",
- run: async (client, message) => {
-  await message.reply(`Pong!`);
+ run: (client, message) => {
+  message.reply(`Pong!`);
  },
 };

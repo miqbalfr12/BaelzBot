@@ -18,7 +18,7 @@ const logging = (nama, log) => {
 };
 
 module.exports = (client) => {
- client.on("message", async (message) => {
+ client.once("message", async (message) => {
   if (message.from === "status@broadcast") return;
 
   const today = new Date().toLocaleString();
@@ -39,7 +39,6 @@ module.exports = (client) => {
   console.log("\x1b[33m[Whatsapp Chat-log]\x1b[0m", log);
 
   if (message.hasMedia) {
-   console.log({messageId: message.id});
    message.downloadMedia().then((media) => {
     if (media) {
      const mediaPath = "./download/";
@@ -47,12 +46,11 @@ module.exports = (client) => {
       fs.mkdirSync(mediaPath);
      }
      const extension = mime.extension(media.mimetype);
-     const timestamp = new Date().getTime();
-     let nama = fromGroup ? chat.name : message._data.notifyName;
+     let nama = fromGroup ? chat.name : message.from;
      let medfile = media.filename
       ? nama + "_" + media.filename
       : nama + "." + extension;
-     const fullFilename = mediaPath + message.id + "_" + medfile;
+     const fullFilename = mediaPath + message.id._serialized + "_" + medfile;
      // Save to file
      try {
       fs.writeFileSync(fullFilename, media.data, {encoding: "base64"});
@@ -72,11 +70,14 @@ module.exports = (client) => {
 
   const answer = (pull) => {
    const key = identity + pull.name;
+   console.log(pull.timeout);
+   console.log(Timeout.get(key));
    if (pull.timeout && Timeout.get(key)) {
     return message.reply(
      `*${message._data.notifyName}*! Please wait ${pull.name} cooldown!`
     );
    } else {
+    console.log("Running", pull.name);
     pull.run(client, message, args);
     if (pull.timeout) {
      Timeout.set(key, Date.now());
@@ -90,7 +91,8 @@ module.exports = (client) => {
   if (feature) answer(feature);
   else if (command) answer(command);
   else if (dbcmd) message.reply(dbcmd.answer);
-  else {
+
+  if (!feature && !command && !dbcmd) {
    if (
     fromGroup ||
     client.ignore.includes(cmd) ||
@@ -98,9 +100,15 @@ module.exports = (client) => {
     client.friends.has(message.from)
    )
     return;
+   let contact;
+   try {
+    contact = await client.getContactById(message.from);
+   } catch (error) {
+    contact.name = message._data.notifyName;
+   }
    let nama = client.data_akun.has(pnf2(message.from))
     ? ` ${client.data_akun.get(pnf2(message.from)).nama}`
-    : ` ${message._data.notifyName}`;
+    : ` ${contact.name}`;
    //  const media = MessageMedia.fromFilePath(
    //   "./source/oga/1680455163938_Baelz.oga"
    //  );
