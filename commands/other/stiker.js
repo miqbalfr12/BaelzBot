@@ -22,7 +22,7 @@ const stiker = async (pull, client) => {
  const processMedia = (file, extension, filename, webpFilename) => {
   if (extension === "mp4" || extension === "gif") {
    execSync(
-    `ffmpeg -i ${file} -t 10 -vf "fps=10,scale='if(gt(iw,ih),320,-2)':'if(gt(ih,iw),320,-2)':force_original_aspect_ratio=decrease,pad=320:320:(ow-iw)/2:(oh-ih)/2:color=#00000000" -c:v libwebp -lossless 0 -q:v 90 ${webpFilename}`
+    `ffmpeg -i ${file} -t 6 -vf "fps=10,scale='if(gt(iw,ih),320,-2)':'if(gt(ih,iw),320,-2)':force_original_aspect_ratio=decrease,pad=320:320:(ow-iw)/2:(oh-ih)/2:color=#00000000" -c:v libwebp -lossless 0 -q:v 90 ${webpFilename}`
    );
   } else if (["jpg", "jpeg", "png", "webp"].includes(extension)) {
    // Jika file sudah berupa gambar, langsung gunakan tanpa konversi
