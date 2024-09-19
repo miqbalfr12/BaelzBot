@@ -54,7 +54,7 @@ module.exports = {
        webpData,
        filename
       );
-      
+
       client.sendMessage(pull.from, sticker, {
        sendMediaAsSticker: true,
        stickerAuthor: "Created By BaelzBot",
@@ -77,7 +77,7 @@ module.exports = {
    stiker(message);
   } else if (message.hasQuotedMsg) {
    const quotedMsg = await message.getQuotedMessage();
-   console.log(quotedMsg);
+   console.log("Quoted message: hasMedia ", quotedMsg.hasMedia);
    if (quotedMsg.hasMedia) {
     stiker(quotedMsg);
    } else {
