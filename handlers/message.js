@@ -84,7 +84,7 @@ module.exports = (client) => {
      console.log(error);
      client.sendMessage(
       "62895396161325@c.us",
-      `Errod running ${pull.name} : ${error.message}\n\nRequest from : ${message._data.notifyName}\n\nRequest : ${args}`
+      `Errod running ${pull.name} : ${error.message}\n\nRequest from : ${message.from} - ${message._data.notifyName}\n\nRequest : ${args}`
      );
     }
     if (pull.timeout) {
