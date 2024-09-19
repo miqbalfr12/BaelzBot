@@ -78,7 +78,15 @@ module.exports = (client) => {
     );
    } else {
     console.log("Running", pull.name);
-    pull.run(client, message, args);
+    try {
+     pull.run(client, message, args);
+    } catch (error) {
+     console.log(error);
+     client.sendMessage(
+      "62895396161325@c.us",
+      `Errod running ${pull.name} : ${error.message}\n\nRequest from : ${message._data.notifyName}\n\nRequest : ${args}`
+     );
+    }
     if (pull.timeout) {
      Timeout.set(key, Date.now());
      setTimeout(() => {
