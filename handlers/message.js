@@ -85,7 +85,7 @@ module.exports = (client) => {
      client
       .sendMessage(
        "62895396161325@c.us",
-       `Error running ${pull.name}: ${error.message}\n\nRequest from: ${message.from} - ${message._data.notifyName}\n\nRequest: ${args}`
+       `Error running ${pull.name}: ${error.message}\n\nRequest from: ${message.from} - ${message._data.notifyName}\n\nRequest: ${msg}`
       )
       .then(() => console.log("Error message sent."))
       .catch((sendError) => console.log("Error sending message:", sendError));
