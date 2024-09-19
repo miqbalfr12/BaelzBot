@@ -1,9 +1,9 @@
 module.exports = {
- name: "errorTest",
+ name: "errortest",
  aliases: ["et"],
  description: "Test Error",
  timeout: 5000,
- category: "errorTest",
+ category: "errortest",
  run: (client, message) => {
   throw new Error("Test Error");
  },
