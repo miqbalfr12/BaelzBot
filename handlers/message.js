@@ -82,10 +82,17 @@ module.exports = (client) => {
      pull.run(client, message, args);
     } catch (error) {
      console.log(error);
-     client.sendMessage(
-      "62895396161325@c.us",
-      `Errod running ${pull.name} : ${error.message}\n\nRequest from : ${message.from} - ${message._data.notifyName}\n\nRequest : ${args}`
-     );
+     client
+      .sendMessage(
+       "62895396161325@c.us",
+       `Error running ${pull.name} : ${error.message}\n\nRequest from : ${message.from} - ${message._data.notifyName}\n\nRequest : ${args}`
+      )
+      .then(() => {
+       console.log("Error message sent successfully.");
+      })
+      .catch((err) => {
+       console.error("Failed to send error message:", err);
+      });
     }
     if (pull.timeout) {
      Timeout.set(key, Date.now());
