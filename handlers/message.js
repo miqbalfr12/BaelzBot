@@ -78,7 +78,9 @@ module.exports = (client) => {
     );
    } else {
     console.log("Running", pull.name);
-    pull.run(client, message, args).catch((error) => {
+    try {
+     pull.run(client, message, args);
+    } catch (error) {
      console.error("Error caught:", error);
      client
       .sendMessage(
@@ -87,7 +89,7 @@ module.exports = (client) => {
       )
       .then(() => console.log("Error message sent."))
       .catch((sendError) => console.log("Error sending message:", sendError));
-    });
+    }
     if (pull.timeout) {
      Timeout.set(key, Date.now());
      setTimeout(() => {
