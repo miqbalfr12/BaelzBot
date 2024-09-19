@@ -39,6 +39,7 @@ module.exports = (client) => {
   console.log("\x1b[33m[Whatsapp Chat-log]\x1b[0m", log);
 
   if (message.hasMedia) {
+   console.log({messageId: message.id});
    message.downloadMedia().then((media) => {
     if (media) {
      const mediaPath = "./download/";
@@ -51,7 +52,7 @@ module.exports = (client) => {
      let medfile = media.filename
       ? nama + "_" + media.filename
       : nama + "." + extension;
-     const fullFilename = mediaPath + timestamp + "_" + medfile;
+     const fullFilename = mediaPath + message.id + "_" + medfile;
      // Save to file
      try {
       fs.writeFileSync(fullFilename, media.data, {encoding: "base64"});

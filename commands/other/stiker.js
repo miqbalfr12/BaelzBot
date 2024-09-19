@@ -69,6 +69,9 @@ module.exports = {
      } catch (err) {
       console.log("Failed to process the file:", err);
      }
+    } else {
+     console.log(media);
+     console.log("Failed to download the file");
     }
    });
   };
